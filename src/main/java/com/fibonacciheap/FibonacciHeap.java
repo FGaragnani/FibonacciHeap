@@ -8,7 +8,7 @@ public class FibonacciHeap<E extends Comparable<E>> implements Queue<E> {
     private List<Node<E>> roots;
     private int size;
 
-    public FibonacciHeap(){
+    public FibonacciHeap() {
         this.roots = new ArrayList<>();
         size = recursiveSize(roots);
         min = minimum(roots);
@@ -20,24 +20,24 @@ public class FibonacciHeap<E extends Comparable<E>> implements Queue<E> {
         min = minimum(roots);
     }
 
-    public FibonacciHeap(Node<E>...nodes) {
+    public FibonacciHeap(Node<E>... nodes) {
         this.roots = new ArrayList<>(List.of(nodes));
         size = recursiveSize(roots);
         min = minimum(roots);
     }
 
     @SafeVarargs
-    public FibonacciHeap(E...elements){
+    public FibonacciHeap(E... elements) {
         this.roots = new ArrayList<>();
         Arrays.stream(elements).forEach(element -> roots.add(new Node<>(element)));
         size = recursiveSize(roots);
         min = minimum(roots);
     }
 
-    private int recursiveSize(List<Node<E>> list){
+    private int recursiveSize(List<Node<E>> list) {
         int size = 0;
-        if(!list.isEmpty()){
-            for(Node<E> node : list){
+        if (!list.isEmpty()) {
+            for (Node<E> node : list) {
                 size++;
                 size += recursiveSize(node.getNodes());
             }
@@ -45,10 +45,10 @@ public class FibonacciHeap<E extends Comparable<E>> implements Queue<E> {
         return size;
     }
 
-    private Node<E> minimum(List<Node<E>> roots){
+    private Node<E> minimum(List<Node<E>> roots) {
         Node<E> min = null;
-        for(Node<E> node : roots){
-            if(min == null){
+        for (Node<E> node : roots) {
+            if (min == null) {
                 min = node;
             } else if (min.getElement().compareTo(node.getElement()) > 0) {
                 min = node;
@@ -69,7 +69,29 @@ public class FibonacciHeap<E extends Comparable<E>> implements Queue<E> {
 
     @Override
     public boolean contains(Object o) {
-        // TODO
+        E e = (E) o;
+        for (Node<E> node : roots) {
+            if (node.getElement().compareTo(e) == 0) {
+                return true;
+            } else if (node.getElement().compareTo(e) < 0) {
+                if(contains(e, node.getNodes())){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean contains(E element, List<Node<E>> nodes) {
+        for (Node<E> node : nodes) {
+            if (node.getElement().compareTo(element) == 0) {
+                return true;
+            } else if (node.getElement().compareTo(element) < 0) {
+                if(contains(element, node.getNodes())){
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -92,13 +114,13 @@ public class FibonacciHeap<E extends Comparable<E>> implements Queue<E> {
 
     @Override
     public boolean add(E e) {
-        if(e == null){
+        if (e == null) {
             return false;
         }
         Node<E> toInsert = new Node<>(e);
         roots.add(toInsert);
         size++;
-        if(min == null){
+        if (min == null) {
             min = toInsert;
         } else if (min.getElement().compareTo(e) > 0) {
             min = toInsert;
@@ -118,7 +140,12 @@ public class FibonacciHeap<E extends Comparable<E>> implements Queue<E> {
 
     @Override
     public boolean addAll(Collection<? extends E> c) {
-        return false;
+        for (E e : c) {
+            if (!add(e)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -133,7 +160,7 @@ public class FibonacciHeap<E extends Comparable<E>> implements Queue<E> {
 
     @Override
     public void clear() {
-        for(Node<E> node : roots){
+        for (Node<E> node : roots) {
             clear(node);
         }
         roots.clear();
@@ -141,12 +168,12 @@ public class FibonacciHeap<E extends Comparable<E>> implements Queue<E> {
         min = minimum(roots);
     }
 
-    private void clear(Node<E> node){
-        if(node.isLeaf()){
+    private void clear(Node<E> node) {
+        if (node.isLeaf()) {
             return;
         }
-        for(Node<E> children : node.getNodes()){
-            clear(node);
+        for (Node<E> children : node.getNodes()) {
+            clear(children);
         }
         node.getNodes().clear();
     }
@@ -163,7 +190,7 @@ public class FibonacciHeap<E extends Comparable<E>> implements Queue<E> {
 
     @Override
     public boolean offer(E e) {
-        return false;
+        return add(e);
     }
 
     @Override
@@ -178,7 +205,7 @@ public class FibonacciHeap<E extends Comparable<E>> implements Queue<E> {
 
     @Override
     public E element() {
-        if(min == null || roots.isEmpty()){
+        if (min == null || roots.isEmpty()) {
             throw new RuntimeException("The heap is empty.");
         }
         return min.getElement();
@@ -186,30 +213,29 @@ public class FibonacciHeap<E extends Comparable<E>> implements Queue<E> {
 
     @Override
     public E peek() {
-        if(min == null){
+        if (min == null) {
             return null;
         }
         return min.getElement();
     }
 
-    private List<E> getAll(){
+    private List<E> getAll() {
         List<E> toRet = new ArrayList<>();
-        for(Node<E> node : roots){
+        for (Node<E> node : roots) {
             toRet.add(node.getElement());
             toRet.addAll(getAll(node.getNodes()));
         }
         return toRet;
     }
 
-    private List<E> getAll(List<Node<E>> nodes){
+    private List<E> getAll(List<Node<E>> nodes) {
         List<E> toRet = new ArrayList<>();
-        for(Node<E> node : nodes){
+        for (Node<E> node : nodes) {
             toRet.add(node.element);
             toRet.addAll(getAll(node.getNodes()));
         }
         return toRet;
     }
-
 }
 
 class Node<E> {
@@ -235,15 +261,15 @@ class Node<E> {
         return nodes;
     }
 
-    public boolean isLeaf(){
+    public boolean isLeaf() {
         return nodes.isEmpty();
     }
 
-    public void addChildren(E e){
+    public void addChildren(E e) {
         addChildren(new Node<>(e));
     }
 
-    public void addChildren(Node<E> node){
+    public void addChildren(Node<E> node) {
         nodes.add(node);
     }
 
