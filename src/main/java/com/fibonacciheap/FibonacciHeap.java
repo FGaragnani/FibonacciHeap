@@ -8,6 +8,12 @@ public class FibonacciHeap<E extends Comparable<E>> implements Queue<E> {
     private List<Node<E>> roots;
     private int size;
 
+    public FibonacciHeap(){
+        this.roots = new ArrayList<>();
+        size = recursiveSize(roots);
+        min = minimum(roots);
+    }
+
     public FibonacciHeap(List<Node<E>> roots) {
         this.roots = roots;
         size = recursiveSize(roots);
@@ -87,10 +93,15 @@ public class FibonacciHeap<E extends Comparable<E>> implements Queue<E> {
 
     @Override
     public boolean add(E e) {
+        if(e == null){
+            return false;
+        }
         Node<E> toInsert = new Node<>(e);
         roots.add(toInsert);
         size++;
-        if(min.getElement().compareTo(e) > 0){
+        if(min == null){
+            min = toInsert;
+        } else if (min.getElement().compareTo(e) > 0) {
             min = toInsert;
         }
         return true;
