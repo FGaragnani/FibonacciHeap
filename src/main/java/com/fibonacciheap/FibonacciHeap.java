@@ -81,8 +81,7 @@ public class FibonacciHeap<E extends Comparable<E>> implements Queue<E> {
 
     @Override
     public Object[] toArray() {
-        // TODO
-        return new Object[0];
+        return getAll().toArray();
     }
 
     @Override
@@ -187,6 +186,25 @@ public class FibonacciHeap<E extends Comparable<E>> implements Queue<E> {
     public E peek() {
         return min.getElement();
     }
+
+    private List<E> getAll(){
+        List<E> toRet = new ArrayList<>();
+        for(Node<E> node : roots){
+            toRet.add(node.getElement());
+            toRet.addAll(getAll(node.getNodes()));
+        }
+        return toRet;
+    }
+
+    private List<E> getAll(List<Node<E>> nodes){
+        List<E> toRet = new ArrayList<>();
+        for(Node<E> node : nodes){
+            toRet.add(node.element);
+            toRet.addAll(getAll(node.getNodes()));
+        }
+        return toRet;
+    }
+
 }
 
 class Node<E> {
