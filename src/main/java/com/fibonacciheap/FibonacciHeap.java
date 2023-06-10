@@ -134,7 +134,20 @@ public class FibonacciHeap<E extends Comparable<E>> implements Queue<E> {
 
     @Override
     public void clear() {
+        for(Node<E> node : roots){
+            clear(node);
+        }
+        roots.clear();
+    }
 
+    public void clear(Node<E> node){
+        if(node.isLeaf()){
+            return;
+        }
+        for(Node<E> children : node.getNodes()){
+            clear(node);
+        }
+        node.getNodes().clear();
     }
 
     @Override
@@ -164,12 +177,15 @@ public class FibonacciHeap<E extends Comparable<E>> implements Queue<E> {
 
     @Override
     public E element() {
-        return null;
+        if(roots.isEmpty()){
+            throw new RuntimeException("The heap is empty.");
+        }
+        return min.getElement();
     }
 
     @Override
     public E peek() {
-        return null;
+        return min.getElement();
     }
 }
 
@@ -177,8 +193,6 @@ class Node<E> {
 
     E element;
     List<Node<E>> nodes;
-
-    public Node() {}
 
     public Node(E element) {
         this.element = element;
@@ -194,20 +208,20 @@ class Node<E> {
         return element;
     }
 
-    public void setElement(E element){
-        this.element = element;
-    }
-
     public List<Node<E>> getNodes() {
         return nodes;
     }
 
-    public void setNodes(List<Node<E>> nodes) {
-        this.nodes = nodes;
-    }
-
     public boolean isLeaf(){
         return nodes.isEmpty();
+    }
+
+    public void addChildren(E e){
+        addChildren(new Node<>(e));
+    }
+
+    public void addChildren(Node<E> node){
+        nodes.add(node);
     }
 
 }

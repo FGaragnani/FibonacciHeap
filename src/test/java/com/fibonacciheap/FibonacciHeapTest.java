@@ -16,14 +16,17 @@ class FibonacciHeapTest {
 
     @Test
     void isEmpty() {
-        FibonacciHeap<Integer> fibonacciHeap = new FibonacciHeap<>();
+        FibonacciHeap<String> fibonacciHeap = new FibonacciHeap<>();
         assertTrue(fibonacciHeap.isEmpty());
-        fibonacciHeap.add(3);
+        fibonacciHeap.add("ciao");
         assertFalse(fibonacciHeap.isEmpty());
     }
 
     @Test
     void add() {
-
+        FibonacciHeap<Integer> fibonacciHeap = new FibonacciHeap<>(10, 2, 4, 8, 77, 2, 3);
+        fibonacciHeap.add(1);
+        fibonacciHeap.add(3);
+        assertEquals(1, (int) fibonacciHeap.element());
     }
 }
