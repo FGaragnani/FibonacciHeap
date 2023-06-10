@@ -140,7 +140,7 @@ public class FibonacciHeap<E extends Comparable<E>> implements Queue<E> {
         roots.clear();
     }
 
-    public void clear(Node<E> node){
+    private void clear(Node<E> node){
         if(node.isLeaf()){
             return;
         }
@@ -224,4 +224,18 @@ class Node<E> {
         nodes.add(node);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        Node<?> node = (Node<?>) o;
+        return Objects.equals(element, node.element) && Objects.equals(nodes, node.nodes);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(element, nodes);
+    }
 }
