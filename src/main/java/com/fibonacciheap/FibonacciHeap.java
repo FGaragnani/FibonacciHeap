@@ -137,6 +137,8 @@ public class FibonacciHeap<E extends Comparable<E>> implements Queue<E> {
             clear(node);
         }
         roots.clear();
+        size = 0;
+        min = minimum(roots);
     }
 
     private void clear(Node<E> node){
@@ -176,7 +178,7 @@ public class FibonacciHeap<E extends Comparable<E>> implements Queue<E> {
 
     @Override
     public E element() {
-        if(roots.isEmpty()){
+        if(min == null || roots.isEmpty()){
             throw new RuntimeException("The heap is empty.");
         }
         return min.getElement();
@@ -184,6 +186,9 @@ public class FibonacciHeap<E extends Comparable<E>> implements Queue<E> {
 
     @Override
     public E peek() {
+        if(min == null){
+            return null;
+        }
         return min.getElement();
     }
 
