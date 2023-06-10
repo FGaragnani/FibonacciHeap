@@ -20,6 +20,7 @@ public class FibonacciHeap<E extends Comparable<E>> implements Queue<E> {
         min = minimum(roots);
     }
 
+    @SafeVarargs
     public FibonacciHeap(Node<E>... nodes) {
         this.roots = new ArrayList<>(List.of(nodes));
         size = recursiveSize(roots);
@@ -82,6 +83,11 @@ public class FibonacciHeap<E extends Comparable<E>> implements Queue<E> {
         return false;
     }
 
+    @Override
+    public Iterator<E> iterator() {
+        return getAll().iterator();
+    }
+
     private boolean contains(E element, List<Node<E>> nodes) {
         for (Node<E> node : nodes) {
             if (node.getElement().compareTo(element) == 0) {
@@ -93,12 +99,6 @@ public class FibonacciHeap<E extends Comparable<E>> implements Queue<E> {
             }
         }
         return false;
-    }
-
-    @Override
-    public Iterator<E> iterator() {
-        // TODO
-        return null;
     }
 
     @Override
@@ -242,6 +242,11 @@ class Node<E> {
 
     E element;
     List<Node<E>> nodes;
+
+    public Node(){
+        element = null;
+        nodes = new ArrayList<>();
+    }
 
     public Node(E element) {
         this.element = element;
