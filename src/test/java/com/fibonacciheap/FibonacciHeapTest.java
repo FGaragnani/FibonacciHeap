@@ -114,4 +114,21 @@ class FibonacciHeapTest {
         assertTrue(fibonacciHeap.contains(7));
         assertFalse(fibonacciHeap.contains(1));
     }
+
+    @Test
+    void decreaseKey(){
+        List<Node<Integer>> nodes = new ArrayList<>();
+        nodes.add(new Node<>(3));
+        nodes.get(0).addChildren(4);
+        nodes.get(0).addChildren(6);
+        nodes.get(0).getNodes().get(1).addChildren(7);
+        nodes.add(new Node<>(5));
+        nodes.get(1).addChildren(8);
+        FibonacciHeap<Integer> fibonacciHeap = new FibonacciHeap<>(nodes);
+        fibonacciHeap.decreaseKey(nodes.get(1).getNodes().get(0), 9);
+        assertEquals(fibonacciHeap.element(), 3);
+        fibonacciHeap.decreaseKey(nodes.get(0).getNodes().get(1), 2);
+        assertEquals(fibonacciHeap.element(), 2);
+    }
+
 }

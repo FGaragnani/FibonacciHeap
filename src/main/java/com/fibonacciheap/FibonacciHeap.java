@@ -236,11 +236,17 @@ public class FibonacciHeap<E extends Comparable<E>> implements Queue<E> {
         for (Node<E> root : roots) {
             if (root == node) {
                 root.setElement(newKey);
+                if(min.getElement().compareTo(newKey) > 0){
+                    min = node;
+                }
                 return;
             }
             for (Node<E> children : root.getNodes()) {
                 decreaseKey(root, children, node, newKey);
-                if (root.getElement().equals(newKey)) {
+                if (node.getElement().equals(newKey)) {
+                    if(min.getElement().compareTo(newKey) > 0){
+                        min = node;
+                    }
                     return;
                 }
             }
