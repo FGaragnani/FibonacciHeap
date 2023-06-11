@@ -7,7 +7,6 @@
     <list default="true" id="050de907-e872-4e6c-8788-570cbbb92326" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/fibonacciheap/FibonacciHeap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fibonacciheap/FibonacciHeap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/fibonacciheap/FibonacciHeapTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/fibonacciheap/FibonacciHeapTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

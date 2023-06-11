@@ -130,7 +130,20 @@ public class FibonacciHeap<E extends Comparable<E>> implements Queue<E> {
 
     @Override
     public boolean remove(Object o) {
-        return false;
+        if(o == null || !contains(o)){
+            return false;
+        }
+
+        E element = (E) o;
+        for(Node<E> root : roots){
+            if(root.getElement().compareTo(element) == 0){
+                roots.addAll(root.getNodes());
+                roots.remove(root);
+                return true;
+            }
+        }
+
+        return true;
     }
 
     @Override
@@ -155,7 +168,12 @@ public class FibonacciHeap<E extends Comparable<E>> implements Queue<E> {
 
     @Override
     public boolean removeAll(Collection<?> c) {
-        return false;
+        for(Object o : c){
+            if(!remove(o)){
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -240,8 +258,13 @@ public class FibonacciHeap<E extends Comparable<E>> implements Queue<E> {
                     min = node;
                 }
                 return;
+            } else if (root.getElement().compareTo(node.getElement()) > 0) {
+                continue;
             }
             for (Node<E> children : root.getNodes()) {
+                if(children.getElement().compareTo(node.getElement()) > 0){
+                    continue;
+                }
                 decreaseKey(root, children, node, newKey);
                 if (node.getElement().equals(newKey)) {
                     if(min.getElement().compareTo(newKey) > 0){
@@ -269,6 +292,9 @@ public class FibonacciHeap<E extends Comparable<E>> implements Queue<E> {
         } else {
 
             for(Node<E> children : toCheck.getNodes()){
+                if(children.getElement().compareTo(toFind.getElement()) > 0){
+                    continue;
+                }
                 decreaseKey(toCheck, children, toFind, newKey);
                 if(toFind.getElement().equals(newKey)){
                     return;
