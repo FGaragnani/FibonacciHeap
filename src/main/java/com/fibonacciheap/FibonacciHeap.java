@@ -135,15 +135,58 @@ public class FibonacciHeap<E extends Comparable<E>> implements Queue<E> {
         }
 
         E element = (E) o;
+        if(element.compareTo(min.getElement()) == 0){
+            for(Node<E> root : roots){
+                if(root.getElement().compareTo(element) == 0){
+                    roots.addAll(root.getNodes());
+                    roots.remove(root);
+                    return true;
+                }
+            }
+        }
         for(Node<E> root : roots){
             if(root.getElement().compareTo(element) == 0){
                 roots.addAll(root.getNodes());
                 roots.remove(root);
                 return true;
             }
+            for(Node<E> children : root.getNodes()){
+                if(children.getElement().compareTo(element) > 0){
+                    continue;
+                }
+                if(remove(root, children, element)){
+                    return true;
+                }
+            }
         }
 
         return true;
+    }
+
+    private boolean remove(Node<E> father, Node<E> children, E toRemove){
+        if(children.getElement().compareTo(toRemove) == 0){
+
+            if(children.isLeaf()){
+                father.getNodes().remove(children);
+            } else {
+                roots.addAll(children.getNodes());
+                father.getNodes().remove(children);
+                children.nodes = null;
+            }
+
+            return true;
+        } else {
+            for(Node<E> node : children.getNodes()){
+                if(node.getElement().compareTo(toRemove) > 0){
+                    continue;
+                }
+                if(remove(children, node, toRemove)){
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     @Override

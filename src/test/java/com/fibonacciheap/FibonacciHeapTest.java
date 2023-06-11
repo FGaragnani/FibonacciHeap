@@ -131,4 +131,9 @@ class FibonacciHeapTest {
         assertEquals(fibonacciHeap.element(), 2);
     }
 
+    @Test
+    void remove(){
+        
+    }
+
 }
