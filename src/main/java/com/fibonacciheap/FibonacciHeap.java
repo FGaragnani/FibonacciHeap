@@ -75,7 +75,7 @@ public class FibonacciHeap<E extends Comparable<E>> implements Queue<E> {
             if (node.getElement().compareTo(e) == 0) {
                 return true;
             } else if (node.getElement().compareTo(e) < 0) {
-                if(contains(e, node.getNodes())){
+                if (contains(e, node.getNodes())) {
                     return true;
                 }
             }
@@ -93,7 +93,7 @@ public class FibonacciHeap<E extends Comparable<E>> implements Queue<E> {
             if (node.getElement().compareTo(element) == 0) {
                 return true;
             } else if (node.getElement().compareTo(element) < 0) {
-                if(contains(element, node.getNodes())){
+                if (contains(element, node.getNodes())) {
                     return true;
                 }
             }
@@ -135,7 +135,12 @@ public class FibonacciHeap<E extends Comparable<E>> implements Queue<E> {
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        return false;
+        for (Object e : c) {
+            if (!contains(e)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -180,12 +185,17 @@ public class FibonacciHeap<E extends Comparable<E>> implements Queue<E> {
 
     @Override
     public boolean equals(Object o) {
-        return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        FibonacciHeap<?> that = (FibonacciHeap<?>) o;
+        return size == that.size && Objects.equals(min, that.min) && Objects.equals(roots, that.roots);
     }
 
     @Override
     public int hashCode() {
-        return 0;
+        return Objects.hash(min, roots, size);
     }
 
     @Override
@@ -219,6 +229,49 @@ public class FibonacciHeap<E extends Comparable<E>> implements Queue<E> {
         return min.getElement();
     }
 
+    public void decreaseKey(Node<E> node, E newKey) {
+        if (node.getElement().compareTo(newKey) <= 0) {
+            return;
+        }
+        for (Node<E> root : roots) {
+            if (root == node) {
+                root.setElement(newKey);
+                return;
+            }
+            for (Node<E> children : root.getNodes()) {
+                decreaseKey(root, children, node, newKey);
+                if (root.getElement().equals(newKey)) {
+                    return;
+                }
+            }
+        }
+    }
+
+    private void decreaseKey(Node<E> father, Node<E> toCheck, Node<E> toFind, E newKey) {
+        if (toFind.getElement().equals(newKey)) {
+
+            return;
+
+        } else if (toCheck == toFind) {
+
+            toCheck.setElement(newKey);
+            if(father.getElement().compareTo(newKey) > 0){
+                roots.add(toCheck);
+                father.getNodes().remove(toCheck);
+            }
+
+        } else {
+
+            for(Node<E> children : toCheck.getNodes()){
+                decreaseKey(toCheck, children, toFind, newKey);
+                if(toFind.getElement().equals(newKey)){
+                    return;
+                }
+            }
+
+        }
+    }
+
     private List<E> getAll() {
         List<E> toRet = new ArrayList<>();
         for (Node<E> node : roots) {
@@ -243,7 +296,7 @@ class Node<E> {
     E element;
     List<Node<E>> nodes;
 
-    public Node(){
+    public Node() {
         element = null;
         nodes = new ArrayList<>();
     }
@@ -260,6 +313,10 @@ class Node<E> {
 
     public E getElement() {
         return element;
+    }
+
+    public void setElement(E e) {
+        this.element = e;
     }
 
     public List<Node<E>> getNodes() {
@@ -291,5 +348,9 @@ class Node<E> {
     @Override
     public int hashCode() {
         return Objects.hash(element, nodes);
+    }
+
+    public int degree() {
+        return nodes.size();
     }
 }
