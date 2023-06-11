@@ -108,8 +108,15 @@ public class FibonacciHeap<E extends Comparable<E>> implements Queue<E> {
 
     @Override
     public <T> T[] toArray(T[] a) {
-        // TODO
-        return null;
+        if(a.length < size){
+            a = (T[]) new Object[size];
+        }
+        int i = 0;
+        for(Iterator<E> iterator = iterator(); iterator.hasNext(); ){
+            a[i] = (T) iterator.next();
+            i++;
+        }
+        return a;
     }
 
     @Override
@@ -140,6 +147,7 @@ public class FibonacciHeap<E extends Comparable<E>> implements Queue<E> {
                 if(root.getElement().compareTo(element) == 0){
                     roots.addAll(root.getNodes());
                     roots.remove(root);
+                    size--;
                     return true;
                 }
             }
@@ -148,6 +156,7 @@ public class FibonacciHeap<E extends Comparable<E>> implements Queue<E> {
             if(root.getElement().compareTo(element) == 0){
                 roots.addAll(root.getNodes());
                 roots.remove(root);
+                size--;
                 return true;
             }
             for(Node<E> children : root.getNodes()){
@@ -155,11 +164,12 @@ public class FibonacciHeap<E extends Comparable<E>> implements Queue<E> {
                     continue;
                 }
                 if(remove(root, children, element)){
+                    size--;
                     return true;
                 }
             }
         }
-
+        size--;
         return true;
     }
 
@@ -266,12 +276,62 @@ public class FibonacciHeap<E extends Comparable<E>> implements Queue<E> {
 
     @Override
     public E remove() {
-        return null;
+        if(roots.isEmpty()){
+            throw new RuntimeException("The heap is empty!");
+        }
+        E element = min.getElement();
+        remove(element);
+
+        HashMap<Integer, Node<E>> degrees = new HashMap<>();
+        for (Node<E> root : roots) {
+            if (!degrees.containsKey(root.degree())) {
+                degrees.put(root.degree(), root);
+                continue;
+            }
+
+            Node<E> toMerge1 = root;
+            Node<E> toMerge2 = degrees.get(toMerge1.degree());
+
+            while (true) {
+
+                if (toMerge1.getElement().compareTo(toMerge2.getElement()) < 0) {
+                    degrees.remove(toMerge1.degree());
+                    toMerge1.getNodes().add(toMerge2);
+                    if (degrees.containsKey(toMerge1.degree())) {
+                        toMerge2 = degrees.get(toMerge1.degree());
+                    } else {
+                        degrees.put(toMerge1.degree(), toMerge1);
+                        break;
+                    }
+                } else {
+                    degrees.remove(toMerge1.degree());
+                    toMerge2.getNodes().add(toMerge1);
+                    if (degrees.containsKey(toMerge2.degree())) {
+                        toMerge1 = toMerge2;
+                        toMerge2 = degrees.get(toMerge1.degree());
+                    } else {
+                        degrees.put(toMerge2.degree(), toMerge2);
+                        break;
+                    }
+                }
+            }
+        }
+
+        roots = new ArrayList<>();
+        for(Map.Entry<Integer, Node<E>> entry : degrees.entrySet()){
+            roots.add(entry.getValue());
+        }
+        min = minimum(roots);
+
+        return element;
     }
 
     @Override
     public E poll() {
-        return null;
+        if(roots.isEmpty()){
+            return null;
+        }
+        return remove();
     }
 
     @Override
@@ -364,6 +424,7 @@ public class FibonacciHeap<E extends Comparable<E>> implements Queue<E> {
         }
         return toRet;
     }
+
 }
 
 class Node<E> {

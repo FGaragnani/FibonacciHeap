@@ -132,8 +132,31 @@ class FibonacciHeapTest {
     }
 
     @Test
+    void removeObject(){
+        List<Node<Integer>> nodes = new ArrayList<>();
+        nodes.add(new Node<>(3));
+        nodes.get(0).addChildren(4);
+        nodes.get(0).addChildren(6);
+        nodes.get(0).getNodes().get(1).addChildren(7);
+        nodes.add(new Node<>(5));
+        nodes.get(1).addChildren(8);
+        FibonacciHeap<Integer> fibonacciHeap = new FibonacciHeap<>(nodes);
+        fibonacciHeap.remove(6);
+        assertEquals(fibonacciHeap.size(), 5);
+        assertFalse(fibonacciHeap.contains(6));
+    }
+
+    @Test
     void remove(){
-        
+        List<Node<Integer>> nodes = new ArrayList<>();
+        nodes.add(new Node<>(3));
+        nodes.get(0).addChildren(4);
+        nodes.get(0).addChildren(6);
+        nodes.get(0).getNodes().get(1).addChildren(7);
+        nodes.add(new Node<>(5));
+        nodes.get(1).addChildren(8);
+        FibonacciHeap<Integer> fibonacciHeap = new FibonacciHeap<>(nodes);
+        assertEquals(fibonacciHeap.remove(), 3);
     }
 
 }

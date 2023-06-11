@@ -66,7 +66,20 @@
       <recent name="com.fibonacciheap" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.FibonacciHeapTest">
+  <component name="RunManager" selected="Application.FibonacciHeap">
+    <configuration name="FibonacciHeap" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.fibonacciheap.FibonacciHeap" />
+      <module name="FibonacciHeap.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.fibonacciheap.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="FibonacciHeapTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -113,7 +126,7 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="FibonacciHeapTest.isEmpty" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="FibonacciHeapTest.remove" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -126,7 +139,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;com.fibonacciheap.FibonacciHeapTest.isEmpty&quot;" />
+            <option value="&quot;com.fibonacciheap.FibonacciHeapTest.remove&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -159,36 +172,13 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="FibonacciHeapTest.toArray" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;com.fibonacciheap.FibonacciHeapTest.toArray&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.FibonacciHeap" />
         <item itemvalue="Gradle.FibonacciHeapTest" />
+        <item itemvalue="Gradle.FibonacciHeapTest.remove" />
         <item itemvalue="Gradle.FibonacciHeapTest.size" />
         <item itemvalue="Gradle.FibonacciHeapTest.clear" />
-        <item itemvalue="Gradle.FibonacciHeapTest.toArray" />
-        <item itemvalue="Gradle.FibonacciHeapTest.isEmpty" />
       </list>
     </recent_temporary>
   </component>
@@ -202,16 +192,5 @@
       <updated>1686406273519</updated>
     </task>
     <servers />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/com/fibonacciheap/FibonacciHeapTest.java</url>
-          <line>129</line>
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
